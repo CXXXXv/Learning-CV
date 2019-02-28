@@ -58,11 +58,8 @@ Canny threshold hysteresis:
 1.Initialize H[d, θ] = 0
 
 2.For each edge point in E(x, y) in the image:
-
-    for θ = 0 to 180:
-    
+    for θ = 0 to 180:   
       d = x * cosθ + y * sinθ
-      
       H[d, θ] += 1
       
 3.Find the value(s) of (d, θ) when H[d, θ] is maximum
