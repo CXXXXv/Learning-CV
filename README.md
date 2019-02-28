@@ -3,6 +3,7 @@
 
 
 # 一、Canny边缘检测
+
 具体流程：
 1、使用高斯滤波，创建一个5 * 5大小，sigma = 1的高斯矩阵，对原图像进行滤波；
 
@@ -11,6 +12,7 @@
 3、非极大值抑制NMS，根据梯度矩阵和每个位置的梯度角度，使边界宽度变为只有一个像素；
 
 4、根据双阈值连接所有边界：大于高阈值的保留作为边缘；低于低阈值的抑制；在高阈值和低阈值间的像素点在周围寻找是否存在强边界，如果存在强边界则保留作为边缘，否则抑制。
+
 
 1.Filter image with derivative of Gaussian
 
@@ -23,6 +25,8 @@
   Define two thresholds: low and high
   Use the high threshold to start edge curves and the low threshold to continue
   
+
+
 Canny threshold hysteresis:
 
 1.Apply a high threshold to detect strong edge pixels.
@@ -34,11 +38,16 @@ Canny threshold hysteresis:
 4.Extend the strong edges to follow weak edge pixels.
 
 
+
+
 # 二、霍夫变换
 基本思想：
+
 1.Each edge point votes for compatible lines.
 
 2.Look for line that get many votes.
+
+
 
 得到边缘检测的结果后，每个边缘点都可以有无数条直线经过它，这些直线可以表示为y0 = a * x0 + b
 
@@ -49,17 +58,23 @@ Canny threshold hysteresis:
 获得投票数较多的bin就是实际图像中的边缘直线
 
 但这种直线表达方式会出现斜率无限大的情况，不能有有限个bins。将直线的表达方式变为极坐标就可以解决这个问题。
+
 在霍夫空间内的直线都可以表示为x * cosθ + y * sinθ = d
 
 θ取0到180°，d取[-最大值，最大值]即可
 
-##Basic Hough transform algorithm:
+
+
+Basic Hough transform algorithm:
 
 1.Initialize H[d, θ] = 0
 
 2.For each edge point in E(x, y) in the image:
+
     for θ = 0 to 180:   
+    
       d = x * cosθ + y * sinθ
+      
       H[d, θ] += 1
       
 3.Find the value(s) of (d, θ) when H[d, θ] is maximum
